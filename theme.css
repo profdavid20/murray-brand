@@ -1,0 +1,58 @@
+/* =====================================================================
+   @murray/brand — Tailwind v4 wiring (@theme)
+   ---------------------------------------------------------------------
+   For Tailwind v4 CSS-first apps (no config file). Import order matters —
+   tailwindcss first, then tokens.css, then this file:
+
+     @import "tailwindcss";
+     @import "@murray/brand/tokens.css";   /* AFTER tailwind: the unlayered
+                                              :root overrides TW's @layer theme
+                                              defaults for --radius-*/--text-* */
+     @import "@murray/brand/theme.css";
+
+   Then each product defines ONLY its four surfaces (+ its own font) in :root:
+     :root {
+       --product-page: #…; --product-surface: #…;
+       --product-surface-soft: #…; --product-highlight: #…;
+       --font-sans: var(--font-<yourFontVar>), Inter, ui-sans-serif, system-ui, sans-serif;
+     }
+
+   For Tailwind v3, use `presets: [require('@murray/brand/tailwind-preset')]`.
+   (Validated in a Tailwind v4 app: build clean, utilities resolve.)
+   ===================================================================== */
+
+@theme inline {
+  /* Colours — mapped BY REFERENCE so tokens.css stays the single source. */
+  --color-orange: var(--brand-orange);
+  --color-orange-hover: var(--brand-orange-hover);
+  --color-orange-soft: var(--brand-orange-soft);
+  --color-near-black: var(--brand-near-black);
+  --color-text: var(--brand-text);
+  --color-text-muted: var(--brand-text-muted);
+  --color-text-subtle: var(--brand-text-subtle);
+  --color-border: var(--brand-border);
+  --color-border-strong: var(--brand-border-strong);
+  --color-surface-raised: var(--brand-surface-raised);
+  --color-success: var(--brand-success);
+  --color-warning: var(--brand-warning);
+  --color-error: var(--brand-error);
+
+  /* Product surfaces — each product overrides these four :root vars. */
+  --color-page: var(--product-page);
+  --color-surface: var(--product-surface);
+  --color-surface-soft: var(--product-surface-soft);
+  --color-highlight: var(--product-highlight);
+}
+
+/* Do NOT put --radius-* / --text-* in @theme — they collide with Tailwind's
+   namespace. The imported tokens.css :root already overrides TW's defaults, so
+   rounded-sm/md and text-xl…4xl carry the brand values automatically. Below are
+   only the shared names Tailwind has no default for. */
+@utility rounded-card    { border-radius: var(--radius-card); }
+@utility rounded-feature { border-radius: var(--radius-feature); }
+@utility rounded-pill    { border-radius: var(--radius-pill); }
+@utility shadow-card     { box-shadow: var(--shadow-card); }
+@utility shadow-feature  { box-shadow: var(--shadow-feature); }
+@utility max-w-narrow    { max-width: var(--content-narrow); }
+@utility max-w-standard  { max-width: var(--content-standard); }
+@utility max-w-wide      { max-width: var(--content-wide); }

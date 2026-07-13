@@ -3,7 +3,7 @@
 // the canonical spec (~/.claude/docs/BRAND.md) and tokens.css.
 
 export const brand = {
-  version: "1.0.0",
+  version: "1.1.0", // package release; design spec (tokens) unchanged since v1.0
 
   // Colors as hex, with matching space-separated RGB channels (for opacity).
   color: {

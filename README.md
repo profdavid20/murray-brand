@@ -64,6 +64,33 @@ module.exports = {
 Opacity modifiers work out of the box (`bg-orange/20`, `border-border/70`) — the
 preset maps colors to the shipped `*-rgb` channels via `<alpha-value>`.
 
+**2a-v4. Tailwind v4 (CSS-first, no config file)** — the v3 preset can't plug in;
+use the `@theme` bridge instead (import order matters):
+
+```css
+@import "tailwindcss";
+@import "@murray/brand/tokens.css";  /* AFTER tailwind — see gotcha (a) */
+@import "@murray/brand/theme.css";   /* maps utilities to --brand-* / --product-* */
+```
+Then each product defines only its four surfaces + font in `:root`:
+```css
+:root {
+  --product-page: #…; --product-surface: #…;
+  --product-surface-soft: #…; --product-highlight: #…;
+  --font-sans: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+}
+```
+**v4 gotchas (why it's wired this way):**
+(a) Scale tokens (`--radius-*`, `--text-*`) collide with Tailwind's namespace —
+do NOT redefine them in `@theme`. The imported `tokens.css` `:root` (unlayered)
+overrides TW's `@layer theme` defaults, so `rounded-sm/md` and `text-xl…4xl`
+carry brand values automatically. (b) Use `@theme inline` for colours (mapped by
+reference) to avoid emitting redundant vars. (c) Shared names TW has no default
+for (`rounded-card/feature/pill`, `shadow-card/feature`, `max-w-narrow/standard/
+wide`) are shipped as `@utility` rules in `theme.css`. (d) With `next/font`,
+expose a non-`--font-sans` var (e.g. `--font-inter`) and reference it, or you get
+a self-referencing `--font-sans`.
+
 **2b. Plain CSS / other stacks** — use the variables directly:
 
 ```css
@@ -109,5 +136,11 @@ CI** so prod always reflects the installed version — never hand-maintain the
 output. Never diverge silently.
 
 ## Contents
-`tokens.css` (CSS variables — hex + `*-rgb` channels) · `tailwind.preset.cjs`
-(Tailwind theme) · `tokens.mjs` + `tokens.d.ts` (typed JS object).
+`tokens.css` (CSS variables — hex + `*-rgb` channels) · `theme.css` (Tailwind v4
+`@theme` wiring) · `tailwind.preset.cjs` (Tailwind v3 preset) · `tokens.mjs` +
+`tokens.d.ts` (typed JS object).
+
+## Versions
+- **v1.1.0** — add `theme.css` (Tailwind v4 `@theme` wiring) + v4 docs. No token
+  values changed (design spec still v1.0).
+- **v1.0.0** — initial tokens, v3 preset, JS object.
