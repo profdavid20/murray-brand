@@ -17,13 +17,21 @@ defer to these tokens. Nothing may redefine a shared token to a different value.
 - **What each product owns (NOT here):** its four `--product-*` surface colors,
   its mood/density, and its per-feature icon glyph choices.
 
-## Install (private git dependency)
+## Install (public git dependency — installs with no auth, CI-friendly)
+
+The repo is **public** (design tokens aren't secret — they're visible in any
+deployed CSS). So this installs anywhere, including CI/CD (Vercel, etc.) with
+**zero authentication**. Consume it as a normal `dependency`, not an optional one.
 
 ```bash
 npm install github:profdavid20/murray-brand
-# pin a version/tag for stability, e.g.:
+# pin a version/tag for stability (recommended):
 # npm install github:profdavid20/murray-brand#v1.0.0
 ```
+
+> Note: `package.json` keeps `"private": true` — that only prevents accidental
+> `npm publish` to the registry; it does not affect public git-dependency
+> installs or repo visibility.
 
 ## Use
 
