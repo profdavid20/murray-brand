@@ -17,21 +17,26 @@ defer to these tokens. Nothing may redefine a shared token to a different value.
 - **What each product owns (NOT here):** its four `--product-*` surface colors,
   its mood/density, and its per-feature icon glyph choices.
 
-## Install (public git dependency — installs with no auth, CI-friendly)
+## Install (public — installs with no auth, CI-friendly)
 
 The repo is **public** (design tokens aren't secret — they're visible in any
-deployed CSS). So this installs anywhere, including CI/CD (Vercel, etc.) with
-**zero authentication**. Consume it as a normal `dependency`, not an optional one.
+deployed CSS). Install it as a normal `dependency` (never `optional`).
+
+**Use the HTTPS tag tarball** — it installs over plain HTTPS with no git and no
+auth, so it works everywhere including CI/CD (Vercel):
 
 ```bash
-npm install github:profdavid20/murray-brand
-# pin a version/tag for stability (recommended):
-# npm install github:profdavid20/murray-brand#v1.0.0
+npm install https://github.com/profdavid20/murray-brand/archive/refs/tags/v1.0.0.tar.gz
 ```
 
-> Note: `package.json` keeps `"private": true` — that only prevents accidental
-> `npm publish` to the registry; it does not affect public git-dependency
-> installs or repo visibility.
+> ⚠️ **Do NOT use the `github:profdavid20/murray-brand#v1.0.0` shorthand for CI.**
+> npm normalizes it to `git+ssh://`, which build servers (Vercel) can't
+> authenticate — it fails even though the repo is public. The tarball avoids git
+> entirely. (A `git+https://github.com/profdavid20/murray-brand.git#v1.0.0`
+> URL also works if you prefer git over the tarball.)
+>
+> `package.json` keeps `"private": true` — that only prevents accidental
+> `npm publish`; it does not affect installs or repo visibility.
 
 ## Use
 
@@ -97,8 +102,11 @@ active, stroke width `1.75`, sizes `--icon-sm/md/lg` (16/20/24). No emoji as
 interface icons.
 
 ## Changing a shared token
-Bump the version here **and** in `~/.claude/docs/BRAND.md` together, then update
-each consuming repo's lockfile to the new tag. Never diverge silently.
+Bump the version here **and** in `~/.claude/docs/BRAND.md` together, tag it
+(`vX.Y.Z`), then update each consuming repo to the new tarball URL. Products that
+generate CSS from the package (e.g. self-contained HTML) must regenerate it **in
+CI** so prod always reflects the installed version — never hand-maintain the
+output. Never diverge silently.
 
 ## Contents
 `tokens.css` (CSS variables — hex + `*-rgb` channels) · `tailwind.preset.cjs`
