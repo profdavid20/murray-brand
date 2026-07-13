@@ -1,13 +1,21 @@
 /* =====================================================================
    @murray/brand — Tailwind v4 wiring (@theme)
    ---------------------------------------------------------------------
-   For Tailwind v4 CSS-first apps (no config file). Import order matters —
-   tailwindcss first, then tokens.css, then this file:
+   For Tailwind v4 CSS-first apps (no config file).
+
+   IMPORTANT — load tokens.css from JS, not via CSS @import. A CSS
+   `@import "@murray/brand/tokens.css"` lands after Tailwind's expanded import,
+   which makes it a "misplaced @import"; Next/Turbopack DROPS it in dev (so every
+   --brand-* is undefined and all colour vanishes), even though `next build`
+   inlines it and prod looks fine. Import it from the app entry instead:
+
+     // app/layout.tsx (or your JS/TS entry)
+     import "@murray/brand/tokens.css";
+
+   Then in your global stylesheet (theme.css carries Tailwind @theme/@utility
+   directives, so it's fine through the CSS @import that Tailwind expands):
 
      @import "tailwindcss";
-     @import "@murray/brand/tokens.css";   /* AFTER tailwind: the unlayered
-                                              :root overrides TW's @layer theme
-                                              defaults for --radius-*/--text-* */
      @import "@murray/brand/theme.css";
 
    Then each product defines ONLY its four surfaces (+ its own font) in :root:

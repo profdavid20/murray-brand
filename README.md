@@ -65,11 +65,16 @@ Opacity modifiers work out of the box (`bg-orange/20`, `border-border/70`) — t
 preset maps colors to the shipped `*-rgb` channels via `<alpha-value>`.
 
 **2a-v4. Tailwind v4 (CSS-first, no config file)** — the v3 preset can't plug in;
-use the `@theme` bridge instead (import order matters):
+use the `@theme` bridge instead. **Load `tokens.css` from JS, and only
+`theme.css` via CSS `@import`:**
 
+```ts
+// app/layout.tsx (or your JS/TS entry) — NOT a CSS @import (see gotcha e)
+import "@murray/brand/tokens.css";
+```
 ```css
+/* your global stylesheet */
 @import "tailwindcss";
-@import "@murray/brand/tokens.css";  /* AFTER tailwind — see gotcha (a) */
 @import "@murray/brand/theme.css";   /* maps utilities to --brand-* / --product-* */
 ```
 Then each product defines only its four surfaces + font in `:root`:
@@ -89,7 +94,12 @@ reference) to avoid emitting redundant vars. (c) Shared names TW has no default
 for (`rounded-card/feature/pill`, `shadow-card/feature`, `max-w-narrow/standard/
 wide`) are shipped as `@utility` rules in `theme.css`. (d) With `next/font`,
 expose a non-`--font-sans` var (e.g. `--font-inter`) and reference it, or you get
-a self-referencing `--font-sans`.
+a self-referencing `--font-sans`. (e) **Load `tokens.css` from JS, not CSS
+`@import`** — a CSS `@import` of a plain stylesheet after Tailwind's expanded
+import is a "misplaced @import" that Next/Turbopack **drops in dev** (colours
+vanish), even though `next build` inlines it and prod looks fine. `theme.css` is
+safe via CSS `@import` because it carries Tailwind directives that Tailwind
+expands.
 
 **2b. Plain CSS / other stacks** — use the variables directly:
 
@@ -141,6 +151,8 @@ output. Never diverge silently.
 `tokens.d.ts` (typed JS object).
 
 ## Versions
+- **v1.1.1** — v4 wiring fix: load `tokens.css` from JS (a CSS `@import` of it is
+  dropped by Next/Turbopack in dev). Docs/comment only; no file behaviour change.
 - **v1.1.0** — add `theme.css` (Tailwind v4 `@theme` wiring) + v4 docs. No token
   values changed (design spec still v1.0).
 - **v1.0.0** — initial tokens, v3 preset, JS object.
