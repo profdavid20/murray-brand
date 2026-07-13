@@ -1,0 +1,69 @@
+/* =====================================================================
+   @murray/brand — Murray Brand System v1.0 — tokens.css
+   ---------------------------------------------------------------------
+   THE AUTHORITATIVE shared design tokens for all Murray products
+   (Renew · Homeschool · SermonPlus · …). ONE BRAND, MANY EXPRESSIONS.
+
+   This package OVERRIDES every other design system: load these tokens as
+   the base, and make any other system (@murray/quiet, shadcn themes, etc.)
+   derive from / defer to them. Import this file once, high in the cascade:
+
+     import '@murray/brand/tokens.css';   // JS/bundler entry, or
+     @import '@murray/brand/tokens.css';  // top of a global stylesheet
+
+   Each product then defines ONLY its four --product-* surfaces + mood.
+   Canonical human spec: ~/.claude/docs/BRAND.md (keep in lockstep).
+   Colors ship as hex AND as space-separated RGB channels (the *-rgb
+   vars) so Tailwind-style opacity modifiers work: rgb(var(--x-rgb) / .5).
+   ===================================================================== */
+:root {
+  color-scheme: light;
+
+  /* ---- Colors ---- */
+  --brand-orange: #ff4f00;            --brand-orange-rgb: 255 79 0;      /* interface orange — never changes */
+  --brand-orange-hover: #e94700;      --brand-orange-hover-rgb: 233 71 0;
+  --brand-orange-soft: #fff0e8;       --brand-orange-soft-rgb: 255 240 232;
+  --brand-near-black: #211817;        --brand-near-black-rgb: 33 24 23;
+  --brand-text: #241c1a;              --brand-text-rgb: 36 28 26;
+  --brand-text-muted: #6e6861;        --brand-text-muted-rgb: 110 104 97;
+  --brand-text-subtle: #8a837c;       --brand-text-subtle-rgb: 138 131 124;
+  --brand-page: #fffdf9;              --brand-page-rgb: 255 253 249;
+  --brand-surface: #f7f3ef;           --brand-surface-rgb: 247 243 239;
+  --brand-surface-raised: #ffffff;    --brand-surface-raised-rgb: 255 255 255;
+  --brand-border: #e8e1d9;            --brand-border-rgb: 232 225 217;
+  --brand-border-strong: #d8cec4;     --brand-border-strong-rgb: 216 206 196;
+  --brand-success: #557a46;           --brand-success-rgb: 85 122 70;
+  --brand-warning: #a66b12;           --brand-warning-rgb: 166 107 18;
+  --brand-error: #b83a2f;             --brand-error-rgb: 184 58 47;
+
+  /* ---- Typography (family: Inter) ---- */
+  --text-xs: 0.75rem;   --text-sm: 0.875rem;  --text-base: 1rem;   --text-lg: 1.125rem;
+  --text-xl: 1.375rem;  --text-2xl: 1.75rem;  --text-3xl: 2.25rem; --text-4xl: 3rem;
+  --weight-regular: 400; --weight-medium: 500; --weight-semibold: 600; --weight-bold: 700;
+
+  /* ---- Spacing (4px base) ---- */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 20px;  --space-6: 24px;  --space-8: 32px;  --space-10: 40px;
+  --space-12: 48px; --space-16: 64px;
+
+  /* ---- Radii ---- */
+  --radius-sm: 8px; --radius-md: 12px; --radius-card: 16px; --radius-feature: 20px; --radius-pill: 999px;
+
+  /* ---- Shadows (restrained) ---- */
+  --shadow-sm: 0 1px 2px rgba(33, 24, 23, 0.05);
+  --shadow-card: 0 1px 2px rgba(33, 24, 23, 0.04), 0 8px 24px rgba(33, 24, 23, 0.05);
+  --shadow-feature: 0 2px 4px rgba(33, 24, 23, 0.05), 0 16px 40px rgba(33, 24, 23, 0.07);
+
+  /* ---- Borders & motion ---- */
+  --border-hairline: 1px solid var(--brand-border);
+  --motion-fast: 150ms; --motion-base: 200ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --focus-ring: 0 0 0 3px rgba(255, 79, 0, 0.3);
+
+  /* ---- Layout rhythm ---- */
+  --content-narrow: 720px; --content-standard: 960px; --content-wide: 1280px;
+  --gutter-mobile: 20px; --gutter-tablet: 32px; --gutter-desktop: 48px;
+  --section-gap: 24px; --section-gap-lg: 32px;
+  --sidebar-width: 288px; --nav-height: 56px; --measure: 66ch;
+  --icon-sm: 16px; --icon-md: 20px; --icon-lg: 24px;
+}

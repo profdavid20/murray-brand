@@ -1,0 +1,26 @@
+{
+  "name": "@murray/brand",
+  "version": "1.0.0",
+  "description": "Murray Brand System v1.0 — the authoritative shared design tokens (ONE BRAND, MANY PRODUCT EXPRESSIONS). Overrides all other design systems.",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./tokens.d.ts",
+      "import": "./tokens.mjs"
+    },
+    "./tokens.css": "./tokens.css",
+    "./tailwind-preset": "./tailwind.preset.cjs"
+  },
+  "files": [
+    "tokens.css",
+    "tokens.mjs",
+    "tokens.d.ts",
+    "tailwind.preset.cjs",
+    "README.md"
+  ]
+}
